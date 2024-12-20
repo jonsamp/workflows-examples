@@ -9,13 +9,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jonsamp.workflows-examples"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jonsamp.workflows_examples"
     },
     "web": {
       "bundler": "metro",
@@ -50,6 +52,7 @@
     },
     "updates": {
       "url": "https://u.expo.dev/8cab42a0-afcd-4727-ac73-efaf62991b92"
-    }
+    },
+    "owner": "jonsamp"
   }
 }

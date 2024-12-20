@@ -1,9 +1,0 @@
-name: Hello World
-
-on:
-  push:
-    branches: ["*"]
-
-jobs:
-  preview-update:
-    type: update
