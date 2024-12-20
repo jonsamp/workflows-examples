@@ -42,7 +42,7 @@ eas workflow:run .eas/workflows/development-builds.yml
 
 ### Reviewing
 
-The **.eas/workflows/pr.yml** workflow will run on all branches when a PR is created. This workflow will lint, format, and test the code. After that, it'll find and display the development builds that work for the branch. Finally, it publishes a preview update that you and your teammates can access inside the "Extensions" tab of a development build, or through expo.dev.
+The **.eas/workflows/pr.yml** workflow will run on all branches when a commit is pushed. This workflow will lint, format, and test the code. After that, it'll find and display the development builds that work for the branch. Finally, it publishes a preview update that you and your teammates can access inside the "Extensions" tab of a development build, or through expo.dev.
 
 ### Releasing
 

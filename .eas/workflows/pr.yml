@@ -1,7 +1,7 @@
 name: CD example
 
 on:
-  pull_request:
+  push:
     branches:
       - "*"
 
@@ -22,7 +22,7 @@ jobs:
       - uses: eas/install_node_modules
       - run: yarn test
   fingerprint:
-    needs: [test]
+    needs: [lint, test]
     name: Fingerprint
     outputs:
       ios_fingerprint_hash: ${{ steps.fingerprint_step_id.outputs.ios_fingerprint_hash }}
@@ -55,5 +55,5 @@ jobs:
       fingerprint_hash: ${{ needs.fingerprint.outputs.ios_fingerprint_hash }}
   publish_update:
     name: Publish update
-    after: [build_android, build_ios]
+    after: [lint, test]
     type: update
