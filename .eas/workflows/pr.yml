@@ -1,4 +1,4 @@
-name: CD example
+name: Push to GitHub
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint:
-    name: Lint, Format, TypeScript
+    name: Lint, format, check types
     steps:
       - uses: eas/checkout
       - uses: eas/install_node_modules
@@ -15,15 +15,19 @@ jobs:
       - run: yarn format
       - run: yarn tsc
   test:
+    name: Unit tests
     needs: [lint]
-    name: Testing
     steps:
       - uses: eas/checkout
       - uses: eas/install_node_modules
       - run: yarn test
+  publish_update:
+    name: Publish update
+    after: [lint, test]
+    type: update
   fingerprint:
-    needs: [lint, test]
     name: Fingerprint
+    needs: [lint, test]
     outputs:
       ios_fingerprint_hash: ${{ steps.fingerprint_step_id.outputs.ios_fingerprint_hash }}
       android_fingerprint_hash: ${{ steps.fingerprint_step_id.outputs.android_fingerprint_hash }}
@@ -53,7 +57,3 @@ jobs:
     type: get-build
     params:
       fingerprint_hash: ${{ needs.fingerprint.outputs.ios_fingerprint_hash }}
-  publish_update:
-    name: Publish update
-    after: [lint, test]
-    type: update
