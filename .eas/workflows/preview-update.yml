@@ -1,13 +1,13 @@
-name: CD example
+name: Preview update
 
 on:
-  pull_request:
+  push:
     branches:
       - "*"
 
 jobs:
   lint:
-    name: Lint, Format, TypeScript
+    name: Lint, format, check types
     steps:
       - uses: eas/checkout
       - uses: eas/install_node_modules
@@ -15,15 +15,19 @@ jobs:
       - run: yarn format
       - run: yarn tsc
   test:
+    name: Unit tests
     needs: [lint]
-    name: Testing
     steps:
       - uses: eas/checkout
       - uses: eas/install_node_modules
       - run: yarn test
+  publish_update:
+    name: Publish update
+    after: [lint, test]
+    type: update
   fingerprint:
-    needs: [test]
     name: Fingerprint
+    needs: [lint, test]
     outputs:
       ios_fingerprint_hash: ${{ steps.fingerprint_step_id.outputs.ios_fingerprint_hash }}
       android_fingerprint_hash: ${{ steps.fingerprint_step_id.outputs.android_fingerprint_hash }}
@@ -53,7 +57,3 @@ jobs:
     type: get-build
     params:
       fingerprint_hash: ${{ needs.fingerprint.outputs.ios_fingerprint_hash }}
-  publish_update:
-    name: Publish update
-    after: [build_android, build_ios]
-    type: update
